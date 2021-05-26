@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "tap-decentraland-thegraph"
+version = "0.1.0"
+description = "`tap-decentraland-thegraph` is Singer tap for DecentralandTheGraph, built with the Singer SDK."
+authors = ["Pablo Seibelt"]
+license = "Apache 2.0"
+
+[tool.poetry.dependencies]
+python = "<3.9,>=3.6"
+requests = "^2.25.1"
+singer-sdk = "^0.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+tap-decentraland-thegraph = 'tap_decentraland_thegraph.tap:TapDecentralandTheGraph.cli'
