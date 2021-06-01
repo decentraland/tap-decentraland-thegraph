@@ -14,7 +14,7 @@ plugins:
     - name: api_url
       value: https://api.thegraph.com/subgraphs/name/decentraland/marketplace
     - name: start_updated_at
-      value: 0
+      value: 1
   loaders:
   - name: target-jsonl
     variant: andyh1203
