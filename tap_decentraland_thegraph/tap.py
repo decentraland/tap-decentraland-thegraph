@@ -41,6 +41,7 @@ class TapDecentralandTheGraph(Tap):
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
+        th.Property("incremental_limit", th.IntegerType, default=5000),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:

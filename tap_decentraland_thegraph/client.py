@@ -17,6 +17,7 @@ class DecentralandTheGraphStream(GraphQLStream):
     is_timestamp_replication_key = True
     latest_timestamp = None
     results_count = None
+    total_results_count = 0
     results_keys = set()
     dedupe = True
     onlyonerow = False
@@ -56,6 +57,10 @@ class DecentralandTheGraphStream(GraphQLStream):
         if previous_token and self.latest_timestamp == previous_token:
             return None
 
+        if self.total_results_count >= self.config["incremental_limit"]:
+            self.logger.warn('Incremental limit for this run reached, please run again to continue loading data, and/or increase your limit')
+            return None
+
         return self.latest_timestamp
         
 
@@ -66,6 +71,7 @@ class DecentralandTheGraphStream(GraphQLStream):
         try:
             results = resp_json["data"][self.object_returned]
             self.results_count = len(results)
+            self.total_results_count += self.results_count
             for row in results:
 
                 if self.onlyonerow == False:
