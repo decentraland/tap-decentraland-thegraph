@@ -5,20 +5,16 @@ plugins:
   extractors:
   - name: tap-decentraland-thegraph
     namespace: tap_decentraland_thegraph
-    # TODO: To test using Meltano, replace with absolute path
-    #       to the tap-decentraland-thegraph.sh script:
     executable: ./tap-decentraland-thegraph.sh
     capabilities:
     - state
     - catalog
     - discover
-    config:
     settings:
-    # TODO: To configure using Meltano, declare settings and their types here:
     - name: api_url
       value: https://api.thegraph.com/subgraphs/name/decentraland/marketplace
     - name: start_updated_at
-      value: 1580515200
+      value: 0
   loaders:
   - name: target-jsonl
     variant: andyh1203

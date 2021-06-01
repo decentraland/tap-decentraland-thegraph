@@ -6,21 +6,29 @@ from singer_sdk import Tap, Stream
 from singer_sdk import typing as th  # JSON schema typing helpers
 
 # TODO: Import your custom stream types here:
-from tap_decentraland_thegraph.streams import (
-    DecentralandTheGraphStream,
-    WearablesStream,
-    ParcelsStream,
-    EstatesStream,
+from tap_decentraland_thegraph.orders_streams import (
+    WearablesOrdersStream,
+    ParcelsOrdersStream,
+    EstatesOrdersStream,
     EstatesHistoricalStream,
-    NamesStream,
+    NamesOrdersStream,
 )
-# TODO: Compile a list of custom stream types here
-#       OR rewrite discover_streams() below with your custom logic.
-STREAM_TYPES = [
+
+from tap_decentraland_thegraph.nfts_streams import (
     WearablesStream,
-    ParcelsStream,
     EstatesStream,
+    ParcelsStream,
+    NamesStream
+)
+STREAM_TYPES = [
+    WearablesOrdersStream,
+    ParcelsOrdersStream,
+    EstatesOrdersStream,
     EstatesHistoricalStream,
+    NamesOrdersStream,
+    WearablesStream,
+    EstatesStream,
+    ParcelsStream,
     NamesStream,
 ]
 
@@ -31,7 +39,7 @@ class TapDecentralandTheGraph(Tap):
 
     # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
-        th.Property("start_updated_at", th.IntegerType, default=1546300800), #2019-01-01
+        th.Property("start_updated_at", th.IntegerType, default=0),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
     ).to_dict()
 

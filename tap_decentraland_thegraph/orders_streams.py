@@ -9,8 +9,7 @@ from tap_decentraland_thegraph.client import DecentralandTheGraphStream
 
 
 
-class WearablesStream(DecentralandTheGraphStream):
-    """Define custom stream."""
+class WearablesOrdersStream(DecentralandTheGraphStream):
     name = "orders_wearables"
 
     primary_keys = ["id"]
@@ -93,8 +92,7 @@ class WearablesStream(DecentralandTheGraphStream):
 
 
 
-class ParcelsStream(DecentralandTheGraphStream):
-    """Define custom stream."""
+class ParcelsOrdersStream(DecentralandTheGraphStream):
     name = "orders_parcels"
 
     primary_keys = ["id"]
@@ -162,8 +160,7 @@ class ParcelsStream(DecentralandTheGraphStream):
         )),
     ).to_dict()
 
-class EstatesStream(DecentralandTheGraphStream):
-    """Define custom stream."""
+class EstatesOrdersStream(DecentralandTheGraphStream):
     name = "orders_estates"
 
     primary_keys = ["id"]
@@ -229,7 +226,7 @@ class EstatesHistoricalStream(DecentralandTheGraphStream):
     name = "historical_snapshot_estates"
 
     # Child stream
-    parent_stream_type = EstatesStream
+    parent_stream_type = EstatesOrdersStream
 
     primary_keys = ["rowId"]
     replication_key = 'rowId'
@@ -299,8 +296,7 @@ class EstatesHistoricalStream(DecentralandTheGraphStream):
     ).to_dict()
 
 
-class NamesStream(DecentralandTheGraphStream):
-    """Define custom stream."""
+class NamesOrdersStream(DecentralandTheGraphStream):
     name = "orders_names"
 
     primary_keys = ["id"]
