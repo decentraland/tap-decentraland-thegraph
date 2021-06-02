@@ -289,7 +289,7 @@ class EstatesStream(DecentralandTheGraphStream):
         else:
             converted = ''
         row['estate']['parcels'] = converted
-        row['estate']['name'] = row['estate']['name'].replace('\\', '\\\\') # Escape backslashes
+        row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
         return row
 
     
