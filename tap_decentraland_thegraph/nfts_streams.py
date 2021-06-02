@@ -210,6 +210,7 @@ class ParcelsStream(DecentralandTheGraphStream):
         """Convert to int"""
         row['parcel']['x'] = int(row['parcel']['x'])
         row['parcel']['y'] = int(row['parcel']['y'])
+        row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
         return row
 
     
