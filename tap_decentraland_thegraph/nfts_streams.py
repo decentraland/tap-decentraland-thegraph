@@ -210,7 +210,7 @@ class ParcelsStream(DecentralandTheGraphStream):
         """Convert to int"""
         row['parcel']['x'] = int(row['parcel']['x'])
         row['parcel']['y'] = int(row['parcel']['y'])
-        if 'name' in row:
+        if 'name' in row and isinstance(row['name'], str):
             row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
         return row
 
@@ -291,7 +291,7 @@ class EstatesStream(DecentralandTheGraphStream):
         else:
             converted = ''
         row['estate']['parcels'] = converted
-        if 'name' in row:
+        if 'name' in row and isinstance(row['name'], str):
             row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
         return row
 
