@@ -20,6 +20,11 @@ from tap_decentraland_thegraph.nfts_streams import (
     ParcelsStream,
     NamesStream
 )
+
+
+from tap_decentraland_thegraph.orders_streams_polygon import (
+    WearablesOrdersPolygonStream,
+)
 STREAM_TYPES = [
     WearablesOrdersStream,
     ParcelsOrdersStream,
@@ -30,6 +35,7 @@ STREAM_TYPES = [
     EstatesStream,
     ParcelsStream,
     NamesStream,
+    WearablesOrdersPolygonStream
 ]
 
 
@@ -41,7 +47,8 @@ class TapDecentralandTheGraph(Tap):
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
-        th.Property("incremental_limit", th.IntegerType, default=5000),
+        th.Property("polygon_api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
+        th.Property("incremental_limit", th.IntegerType, default=20000),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
