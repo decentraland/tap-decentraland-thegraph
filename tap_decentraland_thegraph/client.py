@@ -144,3 +144,11 @@ class DecentralandTheGraphStream(GraphQLStream):
         return response
 
 
+
+class DecentralandTheGraphPolygonStream(DecentralandTheGraphStream):
+    """DecentralandTheGraphPolygonStream stream class."""
+
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return self.config["polygon_api_url"]

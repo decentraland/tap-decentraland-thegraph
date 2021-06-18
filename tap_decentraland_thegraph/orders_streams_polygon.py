@@ -5,15 +5,8 @@ from typing import Any, Dict, Optional, Union, List, Iterable
 
 from singer_sdk import typing as th  # JSON Schema typing helpers
 
-from tap_decentraland_thegraph.client import DecentralandTheGraphStream
+from tap_decentraland_thegraph.client import DecentralandTheGraphPolygonStream
 
-class DecentralandTheGraphPolygonStream(DecentralandTheGraphStream):
-    """DecentralandTheGraphPolygonStream stream class."""
-
-    @property
-    def url_base(self) -> str:
-        """Return the API URL root, configurable via tap settings."""
-        return self.config["polygon_api_url"]
 
 class WearablesOrdersPolygonStream(DecentralandTheGraphPolygonStream):
     name = "orders_polygon_wearables"

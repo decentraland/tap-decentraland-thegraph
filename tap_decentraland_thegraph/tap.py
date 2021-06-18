@@ -21,10 +21,14 @@ from tap_decentraland_thegraph.nfts_streams import (
     NamesStream
 )
 
+from tap_decentraland_thegraph.nfts_streams_polygon import (
+    WearablesPolygonStream,
+)
 
 from tap_decentraland_thegraph.orders_streams_polygon import (
     WearablesOrdersPolygonStream,
 )
+
 STREAM_TYPES = [
     WearablesOrdersStream,
     ParcelsOrdersStream,
@@ -35,7 +39,8 @@ STREAM_TYPES = [
     EstatesStream,
     ParcelsStream,
     NamesStream,
-    WearablesOrdersPolygonStream
+    WearablesOrdersPolygonStream,
+    WearablesPolygonStream
 ]
 
 
