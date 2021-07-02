@@ -41,6 +41,11 @@ from tap_decentraland_thegraph.bids_streams_polygon import (
     WearablesBidsPolygonStream,
 )
 
+from tap_decentraland_thegraph.mana_holders_streams import (
+    ETHManaStream,
+    PolygonManaStream,
+)
+
 STREAM_TYPES = [
     WearablesOrdersStream,
     ParcelsOrdersStream,
@@ -59,6 +64,8 @@ STREAM_TYPES = [
     NamesBidsStream,
     WearablesOrdersPolygonStream,
     WearablesBidsPolygonStream,
+    ETHManaStream,
+    PolygonManaStream,
 ]
 
 
@@ -72,6 +79,8 @@ class TapDecentralandTheGraph(Tap):
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
         th.Property("polygon_api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
         th.Property("incremental_limit", th.IntegerType, default=20000),
+        th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
+        th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
