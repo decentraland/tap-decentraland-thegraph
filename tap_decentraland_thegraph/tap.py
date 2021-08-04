@@ -31,6 +31,8 @@ from tap_decentraland_thegraph.nfts_streams import (
 
 from tap_decentraland_thegraph.nfts_streams_polygon import (
     WearablesPolygonStream,
+    CollectionsPolygonStream,
+    ItemsPolygonStream
 )
 
 from tap_decentraland_thegraph.orders_streams_polygon import (
@@ -66,6 +68,8 @@ STREAM_TYPES = [
     WearablesBidsPolygonStream,
     ETHManaStream,
     PolygonManaStream,
+    CollectionsPolygonStream,
+    ItemsPolygonStream
 ]
 
 
