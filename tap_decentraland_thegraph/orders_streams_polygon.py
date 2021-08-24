@@ -92,4 +92,63 @@ class WearablesOrdersPolygonStream(DecentralandTheGraphPolygonStream):
     ).to_dict()
 
 
+class WearablesPrimarySalesPolygonStream(DecentralandTheGraphPolygonStream):
+    name = "primary_sales_polygon_wearables"
 
+    primary_keys = ["id"]
+    replication_key = 'timestamp'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
+    object_returned = 'mints'
+    
+    query = """
+    query ($timestamp: Int!)
+        {
+        mints(
+            first: 1000,
+            orderBy: timestamp,
+            orderDirection: asc,
+            where:{
+                timestamp_gte: $timestamp
+            }
+        ) {
+            id
+            beneficiary
+            minter
+            timestamp
+            searchPrimarySalePrice
+            searchContractAddress
+            searchItemId
+            searchTokenId
+            searchIssuedId
+            searchIsStoreMinter
+        }
+        }
+    """
+
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+        """As needed, append or transform raw data to match expected structure."""
+        row['searchIssuedId'] = int(row['searchIssuedId'])
+        return row
+
+    
+    def get_url_params(self, partition, next_page_token: Optional[th.IntegerType] = None) -> dict:
+        next_page_token = next_page_token or self.get_starting_timestamp(partition)
+        self.logger.info(f'(stream: {self.name}) Next page:{next_page_token}')
+
+        return {
+            "timestamp": int(next_page_token),
+        }
+    
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, required=True),
+        th.Property("beneficiary", th.StringType),
+        th.Property("minter", th.StringType),
+        th.Property("timestamp", th.StringType),
+        th.Property("searchPrimarySalePrice", th.StringType),
+        th.Property("searchContractAddress", th.StringType),
+        th.Property("searchItemId", th.StringType),
+        th.Property("searchTokenId", th.StringType),
+        th.Property("searchIssuedId", th.IntegerType),
+        th.Property("searchIsStoreMinter", th.BooleanType)
+    ).to_dict()
