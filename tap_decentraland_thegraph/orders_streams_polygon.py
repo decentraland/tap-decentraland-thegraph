@@ -122,6 +122,21 @@ class WearablesPrimarySalesPolygonStream(DecentralandTheGraphPolygonStream):
             searchTokenId
             searchIssuedId
             searchIsStoreMinter
+            nft {
+                id
+                tokenId
+                contractAddress
+                metadata{
+                    wearable {
+                        id
+                        name
+                        collection
+                        rarity
+                        description
+                        bodyShapes
+                    }
+                }
+            }
         }
         }
     """
@@ -150,5 +165,21 @@ class WearablesPrimarySalesPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("searchItemId", th.StringType),
         th.Property("searchTokenId", th.StringType),
         th.Property("searchIssuedId", th.IntegerType),
-        th.Property("searchIsStoreMinter", th.BooleanType)
+        th.Property("searchIsStoreMinter", th.BooleanType),
+        th.Property("nft", th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("tokenId", th.StringType),
+            th.Property("contractAddress", th.StringType),
+            th.Property("metadata", th.ObjectType(
+                th.Property("wearable", th.ObjectType(
+                    th.Property("id", th.StringType),
+                    th.Property("name", th.StringType),
+                    th.Property("collection", th.StringType),
+                    th.Property("rarity", th.StringType),
+                    th.Property("description", th.StringType),
+                    th.Property("bodyShapeMale", th.BooleanType),
+                    th.Property("bodyShapeFemale", th.BooleanType),
+                )),
+            ))
+        ))
     ).to_dict()
