@@ -107,8 +107,7 @@ class DecentralandTheGraphStream(GraphQLStream):
     @backoff.on_exception(
         backoff.expo,
         (requests.exceptions.RequestException),
-        max_tries=5,
-        giveup=lambda e: e.response is not None and e.response.status_code >= 400,
+        max_tries=7,
         factor=2,
     )
     def _request_with_backoff(
