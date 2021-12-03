@@ -28,7 +28,6 @@ class PoapsXdai(DecentralandTheGraphPolygonStream):
     {
         events (
             first: 1000,
-            offset: $offset,
             orderBy: created,
             orderDirection: asc,
             where:{
