@@ -25,7 +25,7 @@ class ETHManaStream(DecentralandTheGraphCompleteObjectStream):
     {
         accounts(
             first: 1000,
-            offset: $offset,
+            skip: $offset,
             orderBy:mana,
             orderDirection:desc
         ) {
