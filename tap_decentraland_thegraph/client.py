@@ -178,6 +178,11 @@ class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
             self.logger.warn('Limit for this run reached')
             return None
 
+        if previous_token >= 5000:
+            self.logger.warn('Skip can\'t be higher than 5000 on The Graph')
+            return None
+
+
         if previous_token is None:
             return RESULTS_PER_PAGE
         else:
