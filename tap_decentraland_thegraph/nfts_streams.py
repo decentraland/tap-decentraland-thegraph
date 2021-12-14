@@ -313,3 +313,91 @@ class EstatesStream(DecentralandTheGraphStream):
             th.Property("parcels", th.StringType)
         ))
     ).to_dict()
+
+class ItemsStream(DecentralandTheGraphStream):
+    name = "items_ethereum"
+    
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return self.config["eth_collections_url"]
+
+    primary_keys = ["rowId"]
+    replication_key = 'updatedAt'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
+    object_returned = 'items'
+    
+    query = """
+    query ($updatedAt: Int!)
+        {
+        items (
+            first: 1000,
+            orderBy: updatedAt,
+            orderDirection: asc,
+            where:{
+                updatedAt_gte: $updatedAt
+        })
+        {
+            id
+            collection{
+                id
+            }
+            blockchainId
+            creator
+            itemType
+            totalSupply
+            maxSupply
+            rarity
+            available
+            price
+            beneficiary
+            contentHash
+            URI
+            image
+            minters
+            managers
+            urn
+            createdAt
+            updatedAt
+        }
+    }
+
+    """
+
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+        """Generate row id"""
+        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+
+        # Convert ints
+        row['totalSupply'] = int(row['totalSupply'])
+        row['maxSupply'] = int(row['maxSupply'])
+        row['available'] = int(row['available'])
+        row['price'] = int(row['price'])
+        return row
+
+    
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, required=True),
+        th.Property("rowId", th.StringType, required=True),
+        th.Property("collection", th.ObjectType(
+            th.Property("id", th.StringType),
+        )),
+        th.Property("blockchainId", th.StringType),
+        th.Property("creator", th.StringType),
+        th.Property("itemType", th.StringType),
+        th.Property("totalSupply", th.IntegerType),
+        th.Property("maxSupply", th.IntegerType),
+        th.Property("rarity", th.StringType),
+        th.Property("available", th.IntegerType),
+        th.Property("price", th.IntegerType),
+        th.Property("beneficiary", th.StringType),
+        th.Property("contentHash", th.StringType),
+        th.Property("URI", th.StringType),
+        th.Property("image", th.StringType),
+        th.Property("minters", th.ArrayType(th.StringType)),
+        th.Property("managers", th.ArrayType(th.StringType)),
+        th.Property("urn", th.StringType),
+        th.Property("createdAt", th.StringType),
+        th.Property("updatedAt", th.StringType)
+    ).to_dict()
