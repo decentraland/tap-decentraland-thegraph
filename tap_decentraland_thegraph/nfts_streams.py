@@ -360,6 +360,7 @@ class ItemsStream(DecentralandTheGraphStream):
             urn
             createdAt
             updatedAt
+            creationFee
         }
     }
 

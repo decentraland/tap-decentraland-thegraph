@@ -127,6 +127,7 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
             createdAt
             updatedAt
             reviewedAt
+            creationFee
         }
     }
 
