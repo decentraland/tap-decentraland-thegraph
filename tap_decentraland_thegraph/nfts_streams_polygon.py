@@ -127,7 +127,6 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
             createdAt
             updatedAt
             reviewedAt
-            creationFee
         }
     }
 
@@ -200,6 +199,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
             urn
             createdAt
             updatedAt
+            creationFee
         }
     }
 
