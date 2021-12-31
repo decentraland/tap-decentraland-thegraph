@@ -239,5 +239,6 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("managers", th.ArrayType(th.StringType)),
         th.Property("urn", th.StringType),
         th.Property("createdAt", th.StringType),
-        th.Property("updatedAt", th.StringType)
+        th.Property("updatedAt", th.StringType),
+        th.Property("creationFee", th.StringType)
     ).to_dict()
