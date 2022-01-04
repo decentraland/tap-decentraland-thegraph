@@ -53,7 +53,7 @@ class ETHAccountsStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("earned", th.StringType),
         th.Property("royalties", th.StringType),
     ).to_dict()
-
+    
 
 class PolygonAccountsStream(DecentralandTheGraphCompleteObjectStream):
     name = "accounts_polygon"
@@ -67,19 +67,26 @@ class PolygonAccountsStream(DecentralandTheGraphCompleteObjectStream):
     object_returned = 'accounts'
     
     query = """
-    query ($offset: Int!)
-    {
-        accounts(
-            first: 1000,
-            offset: $offset,
-            orderBy:mana,
-            orderDirection:desc
-        ) {
-            id
-            mana
+        query ($offset: Int!)
+        {
+            accounts(
+                first: 1000,
+                skip: $offset,
+                orderBy:spent,
+                orderDirection:desc
+            ) {
+                id
+                address
+                isCommitteeMember
+                totalCurations
+                sales
+                purchases
+                spent
+                earned
+                royalties
+            }
         }
-    }
-    """
+        """    
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
