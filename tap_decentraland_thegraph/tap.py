@@ -56,7 +56,7 @@ from tap_decentraland_thegraph.poaps import (
 
 from tap_decentraland_thegraph.accounts_streams import (
     ETHAccountsStream,
-    PolygonAccountsStream,
+    PolygonAccountsStream
 )
 
 STREAM_TYPES = [
@@ -84,7 +84,8 @@ STREAM_TYPES = [
     WearablesPrimarySalesPolygonStream,
     PoapsXdai,
     ItemsStream,
-    AccountStream
+    ETHAccountsStream,
+    PolygonAccountsStream
 ]
 
 class TapDecentralandTheGraph(Tap):
