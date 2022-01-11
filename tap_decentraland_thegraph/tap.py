@@ -87,7 +87,7 @@ STREAM_TYPES = [
     ETHAccountsStream,
     PolygonAccountsStream
 ]
-]
+
 class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
