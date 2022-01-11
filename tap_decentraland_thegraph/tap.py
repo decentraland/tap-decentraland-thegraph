@@ -87,7 +87,7 @@ STREAM_TYPES = [
     ETHAccountsStream,
     PolygonAccountsStream
 ]
-
+]
 class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
@@ -101,9 +101,7 @@ class TapDecentralandTheGraph(Tap):
         th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
         th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
         th.Property("poaps_xdai_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
-        th.Property("eth_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
-        th.Property("eth_accounts_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
-        th.Property("polygon_accounts_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet')
+        th.Property("eth_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet')
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
