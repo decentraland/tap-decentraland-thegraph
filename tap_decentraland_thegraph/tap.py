@@ -94,16 +94,14 @@ class TapDecentralandTheGraph(Tap):
 
     # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
-        th.Property("start_updated_at", th.IntegerType, default=1),
+        th.Property("start_updated_at", th.IntegerType, default = 1),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
-        th.Property("polygon_api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
-        th.Property("incremental_limit", th.IntegerType, default=50000),
-        th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
-        th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
-        th.Property("poaps_xdai_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
-        th.Property("eth_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
-        th.Property("eth_accounts_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
-        th.Property("polygon_accounts_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet')
+        th.Property("polygon_api_url", th.StringType, default = 'https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
+        th.Property("ethereum_api_url", th.StringType, default = 'https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet')
+        th.Property("incremental_limit", th.IntegerType, default = 50000),
+        th.Property("eth_mana_holder_url", th.StringType, default = 'https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
+        th.Property("polygon_mana_holder_url", th.StringType, default = 'https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
+        th.Property("poaps_xdai_url", th.StringType, default = 'https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:

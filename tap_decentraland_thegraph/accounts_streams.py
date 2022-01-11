@@ -8,7 +8,7 @@ from singer_sdk import typing as th  # JSON Schema typing helpers
 
 from tap_decentraland_thegraph.client import DecentralandTheGraphCompleteObjectStream
 
-
+# Account Stream class pulls from TheGraph Matic Collection
 class AccountsStream(DecentralandTheGraphCompleteObjectStream):
     
     primary_keys = ["id"]
@@ -48,16 +48,17 @@ class AccountsStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("royalties", th.StringType),
     ).to_dict()
     
-
+# Ethereum Account Stream child class
 class ETHAccountsStream(AccountsStream):
     name = "accounts_ethereum"
 
     @property
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
-        return self.config["eth_accounts_url"]
+        return self.config["ethereum_api_url"]
 
 
+# Polygon Account Stream child class
 class PolygonAccountsStream(AccountsStream):
     name = "accounts_polygon"
 
