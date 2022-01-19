@@ -58,7 +58,7 @@ from tap_decentraland_thegraph.accounts_streams import (
     ETHAccountsStream,
     PolygonAccountsStream
 )
-from tap_decentraland_thegraph.sales_streams import ETHSalesStream, PolygonSalesStream (
+from tap_decentraland_thegraph.sales_streams import (
     ETHSalesStream,
     PolygonSalesStream
 )
