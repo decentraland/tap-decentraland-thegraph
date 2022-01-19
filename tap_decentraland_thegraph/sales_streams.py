@@ -52,10 +52,10 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("type", th.StringType),
-        th.Property("buyer", th.BooleanType),
-        th.Property("seller", th.IntegerType),
-        th.Property("price", th.IntegerType),
-        th.Property("feesCollectorCut", th.IntegerType),
+        th.Property("buyer", th.StringType),
+        th.Property("seller", th.StringType),
+        th.Property("price", th.StringType),
+        th.Property("feesCollectorCut", th.StringType),
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
         th.Property("item", th.StringType),
@@ -63,7 +63,7 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("timestamp", th.StringType),
         th.Property("txHash", th.StringType),
         th.Property("searchTokenId", th.StringType),
-        th.Property("searchContractAddress", th.StringType),
+        th.Property("searchContractAddress", th.StringType)
     ).to_dict()
     
 
@@ -110,10 +110,10 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
 schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("type", th.StringType),
-        th.Property("buyer", th.BooleanType),
-        th.Property("seller", th.IntegerType),
-        th.Property("price", th.IntegerType),
-        th.Property("feesCollectorCut", th.IntegerType),
+        th.Property("buyer", th.StringType),
+        th.Property("seller", th.StringType),
+        th.Property("price", th.StringType),
+        th.Property("feesCollectorCut", th.StringType),
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
         th.Property("item", th.StringType),
@@ -121,6 +121,5 @@ schema = th.PropertiesList(
         th.Property("timestamp", th.StringType),
         th.Property("txHash", th.StringType),
         th.Property("searchTokenId", th.StringType),
-        th.Property("searchContractAddress", th.StringType),
+        th.Property("searchContractAddress", th.StringType)
     ).to_dict()
-    
