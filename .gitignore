@@ -139,3 +139,4 @@ dmypy.json
 # Temporary files when testing
 /*.csv
 /*.jsonl
+/local_run_files
