@@ -61,7 +61,7 @@ class PolygonAccountsStream(DecentralandTheGraphCompleteObjectStream):
     @property
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
-        return self.config["polygon_api_url"]
+        return self.config["polygon_collections_url"]
 
     primary_keys = ["id"]
     object_returned = 'accounts'
