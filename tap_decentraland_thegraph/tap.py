@@ -92,6 +92,11 @@ STREAM_TYPES = [
     PolygonSalesStream
 ]
 
+STREAM_TYPES = [
+    ETHSalesStream,
+    PolygonSalesStream
+]
+
 class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
