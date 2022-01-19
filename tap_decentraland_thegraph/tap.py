@@ -58,6 +58,10 @@ from tap_decentraland_thegraph.accounts_streams import (
     ETHAccountsStream,
     PolygonAccountsStream
 )
+from tap_decentraland_thegraph.sales_streams import ETHSalesStream, PolygonSalesStream (
+    ETHSalesStream,
+    PolygonSalesStream
+)
 
 STREAM_TYPES = [
     WearablesOrdersStream,
@@ -69,8 +73,6 @@ STREAM_TYPES = [
     EstatesStream,
     ParcelsStream,
     NamesStream,
-    WearablesPolygonStream,
-    WearablesBidsStream,
     ParcelsBidsStream,
     EstatesBidsStream,
     EstatesBidsHistoricalStream,
@@ -85,7 +87,9 @@ STREAM_TYPES = [
     PoapsXdai,
     ItemsStream,
     ETHAccountsStream,
-    PolygonAccountsStream
+    PolygonAccountsStream,
+    ETHSalesStream,
+    PolygonSalesStream
 ]
 
 class TapDecentralandTheGraph(Tap):
