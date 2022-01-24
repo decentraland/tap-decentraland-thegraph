@@ -58,11 +58,13 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("feesCollectorCut", th.StringType),
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
+        th.Property("royaltiesCollector", th.StringType),
         th.Property("item", th.StringType),
         th.Property("nft", th.StringType),
         th.Property("timestamp", th.StringType),
         th.Property("txHash", th.StringType),
         th.Property("searchTokenId", th.StringType),
+        th.Property("searchItemId", th.StringType),
         th.Property("searchContractAddress", th.StringType)
     ).to_dict()
     
@@ -116,13 +118,16 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("feesCollectorCut", th.StringType),
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
+        th.Property("royaltiesCollector", th.StringType),
         th.Property("item", th.StringType),
         th.Property("nft", th.StringType),
         th.Property("timestamp", th.StringType),
         th.Property("txHash", th.StringType),
         th.Property("searchTokenId", th.StringType),
+        th.Property("searchItemId", th.StringType),
         th.Property("searchContractAddress", th.StringType)
     ).to_dict()
+
 
 
 
