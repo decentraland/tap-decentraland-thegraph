@@ -1,0 +1,19 @@
+{
+    "type": "RECORD",
+    "stream": "sales_ethereum",
+    "record": {"buyer": "069...fea",
+    "feesCollector": "0xadfe...018", 
+    "feesCollectorCut": "1725000000000000000",
+    "id": "7213", 
+    "item": {},
+    "nft": {},
+    "price": "69000000000000000000", 
+    "royaltiesCut": "0",
+    "searchContractAddress": "0xik401..er68", 
+    "searchTokenId": "16426", 
+    "seller": "0xf5295519ad..4b241d",
+    "timestamp": "1588248508", 
+    "txHash": "0xe16ec12..7b704418de8f",
+    "type": "order"},
+    "time_extracted": "2022-01-19T14:40:29.514397Z"
+}

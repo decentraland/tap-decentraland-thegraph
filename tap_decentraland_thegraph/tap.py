@@ -58,6 +58,10 @@ from tap_decentraland_thegraph.accounts_streams import (
     ETHAccountsStream,
     PolygonAccountsStream
 )
+from tap_decentraland_thegraph.sales_streams import (
+    ETHSalesStream,
+    PolygonSalesStream
+)
 
 STREAM_TYPES = [
     WearablesOrdersStream,
@@ -69,8 +73,6 @@ STREAM_TYPES = [
     EstatesStream,
     ParcelsStream,
     NamesStream,
-    WearablesPolygonStream,
-    WearablesBidsStream,
     ParcelsBidsStream,
     EstatesBidsStream,
     EstatesBidsHistoricalStream,
@@ -85,7 +87,9 @@ STREAM_TYPES = [
     PoapsXdai,
     ItemsStream,
     ETHAccountsStream,
-    PolygonAccountsStream
+    PolygonAccountsStream,
+    ETHSalesStream,
+    PolygonSalesStream
 ]
 
 class TapDecentralandTheGraph(Tap):
@@ -96,7 +100,7 @@ class TapDecentralandTheGraph(Tap):
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
-        th.Property("polygon_api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
+        th.Property("polygon_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
         th.Property("incremental_limit", th.IntegerType, default=50000),
         th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
         th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
