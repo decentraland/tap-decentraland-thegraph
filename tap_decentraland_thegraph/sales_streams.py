@@ -107,7 +107,7 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
     }
     """
 
-schema = th.PropertiesList(
+    schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("type", th.StringType),
         th.Property("buyer", th.StringType),
