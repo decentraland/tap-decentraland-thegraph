@@ -56,9 +56,6 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
             }
             timestamp
             txHash
-            searchTokenId
-            searchItemId
-            searchContractAddress
         }
     }
     """
@@ -88,10 +85,7 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
             th.Property("itemBlockchainId", th.StringType)
         )),
         th.Property("timestamp", th.StringType),
-        th.Property("txHash", th.StringType),
-        th.Property("searchTokenId", th.StringType),
-        th.Property("searchItemId", th.StringType),
-        th.Property("searchContractAddress", th.StringType)
+        th.Property("txHash", th.StringType)
     ).to_dict()
     
 
@@ -142,9 +136,6 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
             }
             timestamp
             txHash
-            searchTokenId
-            searchItemId
-            searchContractAddress
         }
     }
     """
@@ -174,8 +165,5 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
             th.Property("itemBlockchainId", th.StringType)
         )),
         th.Property("timestamp", th.StringType),
-        th.Property("txHash", th.StringType),
-        th.Property("searchTokenId", th.StringType),
-        th.Property("searchItemId", th.StringType),
-        th.Property("searchContractAddress", th.StringType)
+        th.Property("txHash", th.StringType)
     ).to_dict()
