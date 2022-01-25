@@ -39,7 +39,21 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
             royaltiesCut
             royaltiesCollector
             item
+            {
+                id
+                blockchainId
+                collection {
+                    id
+                }
+                itemType
+            }
             nft
+            {
+                    id
+                    tokenId
+                    contractAddress
+                    itemBlockchainId
+            }
             timestamp
             txHash
             searchTokenId
