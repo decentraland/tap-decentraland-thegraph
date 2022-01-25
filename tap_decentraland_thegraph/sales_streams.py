@@ -39,12 +39,23 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
             royaltiesCut
             royaltiesCollector
             item
+            {
+                id
+                blockchainId
+                collection {
+                    id
+                }
+                itemType
+            }
             nft
+            {
+                    id
+                    tokenId
+                    contractAddress
+                    itemBlockchainId
+            }
             timestamp
             txHash
-            searchTokenId
-            searchItemId
-            searchContractAddress
         }
     }
     """
@@ -59,13 +70,22 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
         th.Property("royaltiesCollector", th.StringType),
-        th.Property("item", th.StringType),
-        th.Property("nft", th.StringType),
+        th.Property("item", th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("blockchainId", th.StringType),
+            th.Property("collection", th.ObjectType(
+                th.Property("id",th.StringType)
+            )),
+            th.Property("itemType", th.StringType)
+        )),
+        th.Property("nft", th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("tokenId", th.StringType),
+            th.Property("contractAddress", th.StringType),
+            th.Property("itemBlockchainId", th.StringType)
+        )),
         th.Property("timestamp", th.StringType),
-        th.Property("txHash", th.StringType),
-        th.Property("searchTokenId", th.StringType),
-        th.Property("searchItemId", th.StringType),
-        th.Property("searchContractAddress", th.StringType)
+        th.Property("txHash", th.StringType)
     ).to_dict()
     
 
@@ -99,12 +119,23 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
             royaltiesCut
             royaltiesCollector
             item
+            {
+                id
+                blockchainId
+                collection {
+                    id
+                }
+                itemType
+            }
             nft
+            {
+                    id
+                    tokenId
+                    contractAddress
+                    itemBlockchainId
+            }
             timestamp
             txHash
-            searchTokenId
-            searchItemId
-            searchContractAddress
         }
     }
     """
@@ -119,15 +150,20 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("feesCollector", th.StringType),
         th.Property("royaltiesCut", th.StringType),
         th.Property("royaltiesCollector", th.StringType),
-        th.Property("item", th.StringType),
-        th.Property("nft", th.StringType),
+        th.Property("item", th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("blockchainId", th.StringType),
+            th.Property("collection", th.ObjectType(
+                th.Property("id",th.StringType)
+            )),
+            th.Property("itemType", th.StringType)
+        )),
+        th.Property("nft", th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("tokenId", th.StringType),
+            th.Property("contractAddress", th.StringType),
+            th.Property("itemBlockchainId", th.StringType)
+        )),
         th.Property("timestamp", th.StringType),
-        th.Property("txHash", th.StringType),
-        th.Property("searchTokenId", th.StringType),
-        th.Property("searchItemId", th.StringType),
-        th.Property("searchContractAddress", th.StringType)
+        th.Property("txHash", th.StringType)
     ).to_dict()
-
-
-
-
