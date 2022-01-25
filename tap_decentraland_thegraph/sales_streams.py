@@ -179,7 +179,3 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
         th.Property("searchItemId", th.StringType),
         th.Property("searchContractAddress", th.StringType)
     ).to_dict()
-
-
-
-
