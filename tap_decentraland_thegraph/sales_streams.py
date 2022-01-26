@@ -6,10 +6,10 @@ from typing import Any, Dict, Optional, Union, List, Iterable, cast
 
 from singer_sdk import typing as th  # JSON Schema typing helpers
 
-from tap_decentraland_thegraph.client import DecentralandTheGraphCompleteObjectStream
+from tap_decentraland_thegraph.client import DecentralandTheGraphStream
 
 
-class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
+class ETHSalesStream(DecentralandTheGraphStream):
     name = "sales_ethereum"
 
     @property
@@ -18,16 +18,21 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
         return self.config["eth_collections_url"]
 
     primary_keys = ["id"]
+    replication_key = 'timestamp'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
     object_returned = 'sales'
     
     query = """
-    query ($offset: Int!)
+    query ($timestamp: Int!)
     {
         sales(
             first: 1000,
-            skip: $offset,
             orderBy:timestamp,
-            orderDirection:desc
+            orderDirection:asc
+            where:{
+                timestamp_gte: $timestamp
+                }
         ) {
             id
             type
@@ -49,17 +54,25 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
             }
             nft
             {
-                    id
-                    tokenId
-                    contractAddress
-                    itemBlockchainId
+                id
+                tokenId
+                contractAddress
+                itemBlockchainId
             }
             timestamp
             txHash
         }
     }
     """
-    
+
+    def get_url_params(self, partition, next_page_token: Optional[th.IntegerType] = None) -> dict:
+        next_page_token = next_page_token or self.get_starting_timestamp(partition)
+        self.logger.info(f'(stream: {self.name}) Next page:{next_page_token}')
+
+        return {
+            "timestamp": int(next_page_token)
+        }
+
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("type", th.StringType),
@@ -89,7 +102,7 @@ class ETHSalesStream(DecentralandTheGraphCompleteObjectStream):
     ).to_dict()
     
 
-class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
+class PolygonSalesStream(DecentralandTheGraphStream):
     name = "sales_polygon"
 
     @property
@@ -98,16 +111,21 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
         return self.config["polygon_collections_url"]
 
     primary_keys = ["id"]
+    replication_key = 'timestamp'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
     object_returned = 'sales'
     
     query = """
-    query ($offset: Int!)
+    query ($timestamp: Int!)
     {
         sales(
             first: 1000,
-            skip: $offset,
-            orderBy:timestamp,
-            orderDirection:desc
+            orderBy: timestamp,
+            orderDirection: asc
+            where:{
+                timestamp_gte: $timestamp                
+                }
         ) {
             id
             type
@@ -129,16 +147,24 @@ class PolygonSalesStream(DecentralandTheGraphCompleteObjectStream):
             }
             nft
             {
-                    id
-                    tokenId
-                    contractAddress
-                    itemBlockchainId
+                id
+                tokenId
+                contractAddress
+                itemBlockchainId
             }
             timestamp
             txHash
         }
     }
     """
+
+    def get_url_params(self, partition, next_page_token: Optional[th.IntegerType] = None) -> dict:
+        next_page_token = next_page_token or self.get_starting_timestamp(partition)
+        self.logger.info(f'(stream: {self.name}) Next page:{next_page_token}')
+
+        return {
+            "timestamp": int(next_page_token)
+        }
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
