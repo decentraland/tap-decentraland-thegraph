@@ -41,12 +41,23 @@ class WearablesBidsPolygonStream(DecentralandTheGraphPolygonStream):
                     tokenId
                     contractAddress
                     metadata{
+                        itemType
                         wearable {
                             id
                             name
-                            collection
-                            rarity
                             description
+                            collection
+                            category
+                            rarity
+                            bodyShapes
+                        }
+                        emote {
+                            id
+                            name
+                            description
+                            collection
+                            category
+                            rarity
                             bodyShapes
                         }
                     }
@@ -57,10 +68,23 @@ class WearablesBidsPolygonStream(DecentralandTheGraphPolygonStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure."""
-        bodyShapes = row['nft']['metadata']['wearable']['bodyShapes']
-        row['nft']['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
-        row['nft']['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
-        del row['nft']['metadata']['wearable']['bodyShapes']
+        if 'wearable' in row['nft']['metadata'] and row['nft']['metadata']['wearable'] is not None:
+            if 'bodyShapes' in row['nft']['metadata']['wearable'] and row['nft']['metadata']['wearable']['bodyShapes'] is not None:
+                bodyShapes = row['nft']['metadata']['wearable']['bodyShapes']
+                row['nft']['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
+                row['nft']['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
+                del row['nft']['metadata']['wearable']['bodyShapes']
+        else:
+            row['nft']['metadata']['wearable'] = {}
+        
+        if 'emote' in row['nft']['metadata'] and row['nft']['metadata']['emote'] is not None:
+            if 'bodyShapes' in row['nft']['metadata']['emote'] and row['nft']['metadata']['emote']['bodyShapes'] is not None:
+                bodyShapes = row['nft']['metadata']['emote']['bodyShapes']
+                row['nft']['metadata']['emote']['bodyShapeMale'] = 'BaseMale' in bodyShapes
+                row['nft']['metadata']['emote']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
+                del row['nft']['metadata']['emote']['bodyShapes']
+        else:
+            row['nft']['metadata']['emote'] = {}
         return row
 
     
@@ -76,12 +100,24 @@ class WearablesBidsPolygonStream(DecentralandTheGraphPolygonStream):
             th.Property("tokenId", th.StringType),
             th.Property("contractAddress", th.StringType),
             th.Property("metadata", th.ObjectType(
+                th.Property("itemType", th.StringType),
                 th.Property("wearable", th.ObjectType(
                     th.Property("id", th.StringType),
                     th.Property("name", th.StringType),
                     th.Property("collection", th.StringType),
+                    th.Property("category", th.StringType),
                     th.Property("rarity", th.StringType),
                     th.Property("description", th.StringType),
+                    th.Property("bodyShapeMale", th.BooleanType),
+                    th.Property("bodyShapeFemale", th.BooleanType),
+                )),
+                th.Property("emote", th.ObjectType(
+                    th.Property("id", th.StringType),
+                    th.Property("name", th.StringType),
+                    th.Property("description", th.StringType),
+                    th.Property("collection", th.StringType),
+                    th.Property("category", th.StringType),
+                    th.Property("rarity", th.StringType),
                     th.Property("bodyShapeMale", th.BooleanType),
                     th.Property("bodyShapeFemale", th.BooleanType),
                 )),
