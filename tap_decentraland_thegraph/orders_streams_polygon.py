@@ -58,10 +58,14 @@ class WearablesOrdersPolygonStream(DecentralandTheGraphPolygonStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure."""
-        bodyShapes = row['nft']['metadata']['wearable']['bodyShapes']
-        row['nft']['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
-        row['nft']['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
-        del row['nft']['metadata']['wearable']['bodyShapes']
+        if 'nft' in row:
+            if 'metadata' in row['nft']:
+                if 'wearable' in row['nft']['metadata']:
+                    if 'bodyShapes' in row['nft']['metadata']['wearable']:
+                        bodyShapes = row['nft']['metadata']['wearable']['bodyShapes']
+                        row['nft']['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
+                        row['nft']['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
+                        del row['nft']['metadata']['wearable']['bodyShapes']
         return row
 
     
