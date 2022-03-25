@@ -64,12 +64,14 @@ from tap_decentraland_thegraph.sales_streams import (
 )
 
 STREAM_TYPES = [
+    WearablesBidsStream,
     WearablesOrdersStream,
     ParcelsOrdersStream,
     EstatesOrdersStream,
     EstatesHistoricalStream,
     NamesOrdersStream,
     WearablesStream,
+    WearablesPolygonStream,
     EstatesStream,
     ParcelsStream,
     NamesStream,
