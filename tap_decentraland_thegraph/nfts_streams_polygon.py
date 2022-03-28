@@ -38,11 +38,21 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
             createdAt
             updatedAt
             metadata {
+                itemType
                 wearable{
                     id
                     collection
                     name
                     description
+                    category
+                    rarity
+                    bodyShapes
+                }   
+                emote {
+                    id
+                    name
+                    description
+                    collection
                     category
                     rarity
                     bodyShapes
@@ -55,10 +65,23 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Convert body shape variables"""
-        bodyShapes = row['metadata']['wearable']['bodyShapes']
-        row['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
-        row['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
-        del row['metadata']['wearable']['bodyShapes']
+        if 'wearable' in row['metadata'] and row['metadata']['wearable'] is not None:
+            if 'bodyShapes' in row['metadata']['wearable'] and row['metadata']['wearable']['bodyShapes'] is not None:
+                bodyShapes = row['metadata']['wearable']['bodyShapes']
+                row['metadata']['wearable']['bodyShapeMale'] = 'BaseMale' in bodyShapes
+                row['metadata']['wearable']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
+                del row['metadata']['wearable']['bodyShapes']
+        else:
+            row['metadata']['wearable'] = {}
+        
+        if 'emote' in row['metadata'] and row['metadata']['emote'] is not None:
+            if 'bodyShapes' in row['metadata']['emote'] and row['metadata']['emote']['bodyShapes'] is not None:
+                bodyShapes = row['metadata']['emote']['bodyShapes']
+                row['metadata']['emote']['bodyShapeMale'] = 'BaseMale' in bodyShapes
+                row['metadata']['emote']['bodyShapeFemale'] = 'BaseFemale' in bodyShapes
+                del row['metadata']['emote']['bodyShapes']
+        else:
+            row['metadata']['emote'] = {}
 
         """Generate row id"""
         row['rowId'] = "|".join([row['id'],row['updatedAt']])
