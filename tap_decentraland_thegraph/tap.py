@@ -98,7 +98,6 @@ class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
 
-    # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
         th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
