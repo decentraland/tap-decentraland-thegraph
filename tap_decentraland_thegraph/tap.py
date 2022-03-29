@@ -51,7 +51,8 @@ from tap_decentraland_thegraph.mana_holders_streams import (
 )
 
 from tap_decentraland_thegraph.poaps import (
-    PoapsXdai
+    PoapsXdai,
+    PoapsMetadata
 )
 
 from tap_decentraland_thegraph.accounts_streams import (
@@ -87,6 +88,7 @@ STREAM_TYPES = [
     ItemsPolygonStream,
     WearablesPrimarySalesPolygonStream,
     PoapsXdai,
+    PoapsMetadata,
     ItemsStream,
     ETHAccountsStream,
     PolygonAccountsStream,
@@ -106,6 +108,7 @@ class TapDecentralandTheGraph(Tap):
         th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
         th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
         th.Property("poaps_xdai_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
+        th.Property("poaps_details_url", th.StringType, default='http://api.poap.xyz'),
         th.Property("eth_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet')
     ).to_dict()
 
