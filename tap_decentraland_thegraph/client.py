@@ -250,7 +250,6 @@ class BaseAPIStream(RESTStream):
         backoff.expo,
         (requests.exceptions.RequestException),
         max_tries=10,
-        giveup=False,
         factor=3,
     )
     def _request_with_backoff(
