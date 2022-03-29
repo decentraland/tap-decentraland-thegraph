@@ -59,7 +59,7 @@ class PoapsXdai(DecentralandTheGraphPolygonStream):
 
 class PoapsMetadata(BaseAPIStream):
     name = "poaps_metadata"
-    path = "/events/id/{poap_id}"
+    path = "/events"
 
     @property
     def url_base(self) -> str:
@@ -67,10 +67,13 @@ class PoapsMetadata(BaseAPIStream):
         return self.config["poaps_details_url"]
 
     primary_keys = ['id']
-    replication_method = "INCREMENTAL"
-    replication_key = 'id'
-    parent_stream_type = PoapsXdai
 
+    def parse_response(self, response) -> Iterable[dict]:
+        """Parse Tiles rows"""
+
+        data =response.json()
+        for t in data:
+            yield t
 
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType, required=True),
