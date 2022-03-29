@@ -274,7 +274,7 @@ class BaseAPIStream(RESTStream):
             raise RuntimeError(
                 "Requested resource was unauthorized, forbidden, or not found."
             )
-        if response.status_code == 429:
+        if response.status_code == 429 or response.status_code == 502:
             self.logger.info("Throttled request for {}".format(prepared_request.url))
             raise requests.exceptions.RequestException(
                 request=prepared_request,
