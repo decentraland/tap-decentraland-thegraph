@@ -119,9 +119,9 @@ class PoapsMetadata(BaseAPIStream):
         th.Property("start_date", th.IntegerType),
         th.Property("end_date", th.StringType),
         th.Property("expiry_date", th.StringType),
-        th.Property("from_admin", th.BooleanType),
-        th.Property("virtual_event", th.BooleanType),
+        th.Property("from_admin", th.StringType),
+        th.Property("virtual_event", th.StringType),
         th.Property("event_template_id", th.StringType),
         th.Property("event_host_id", th.StringType),
-        th.Property("private_event", th.BooleanType),
+        th.Property("private_event", th.StringType),
     ).to_dict()
