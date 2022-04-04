@@ -101,7 +101,7 @@ class PoapsMetadata(BaseAPIStream):
         return row
 
     schema = th.PropertiesList(
-        th.Property("id", th.IntegerType, required=True),
+        th.Property("id", th.StringType, required=True),
         th.Property("fancy_id", th.StringType),
         th.Property("name", th.StringType),
         th.Property("event_url", th.StringType),
@@ -109,13 +109,13 @@ class PoapsMetadata(BaseAPIStream):
         th.Property("country", th.StringType),
         th.Property("city", th.StringType),
         th.Property("description", th.StringType),
-        th.Property("year", th.IntegerType),
+        th.Property("year", th.StringType),
         th.Property("start_date", th.IntegerType),
         th.Property("end_date", th.StringType),
         th.Property("expiry_date", th.StringType),
         th.Property("from_admin", th.BooleanType),
         th.Property("virtual_event", th.BooleanType),
-        th.Property("event_template_id", th.IntegerType),
-        th.Property("event_host_id", th.IntegerType),
+        th.Property("event_template_id", th.StringType),
+        th.Property("event_host_id", th.StringType),
         th.Property("private_event", th.BooleanType),
     ).to_dict()
