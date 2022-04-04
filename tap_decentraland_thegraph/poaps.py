@@ -102,6 +102,9 @@ class PoapsMetadata(BaseAPIStream):
         row['year'] = str(row['year'])
         row['event_host_id'] = str(row['event_host_id'])
         row['event_template_id'] = str(row['event_template_id'])
+        row['from_admin'] = str(row['from_admin'])
+        row['virtual_event'] = str(row['virtual_event'])
+        row['private_event'] = str(row['private_event'])
 
         row['start_date'] = int(datetime.strptime(row['start_date'], '%d-%b-%Y').timestamp())
         return row
