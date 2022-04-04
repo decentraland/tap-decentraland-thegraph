@@ -97,6 +97,12 @@ class PoapsMetadata(BaseAPIStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Add hash"""
+        row['id'] = str(row['id'])
+        row['fancy_id'] = str(row['fancy_id'])
+        row['year'] = str(row['year'])
+        row['event_host_id'] = str(row['event_host_id'])
+        row['event_template_id'] = str(row['event_template_id'])
+
         row['start_date'] = int(datetime.strptime(row['start_date'], '%d-%b-%Y').timestamp())
         return row
 
