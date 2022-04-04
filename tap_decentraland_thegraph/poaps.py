@@ -1,10 +1,11 @@
 """Stream type classes for tap-decentraland-thegraph."""
 
-import logging
+import requests
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 
+from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk import typing as th  # JSON Schema typing helpers
 
 from tap_decentraland_thegraph.client import DecentralandTheGraphPolygonStream, BaseAPIStream
@@ -52,13 +53,6 @@ class PoapsXdai(DecentralandTheGraphPolygonStream):
     ).to_dict()
 
 
-    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
-        """Return a context dictionary for child streams."""
-        return {
-            "poap_id": record['id']
-        }
-
-
 class PoapsMetadata(BaseAPIStream):
     name = "poaps_metadata"
     path = "/paginated-events"
@@ -71,12 +65,25 @@ class PoapsMetadata(BaseAPIStream):
         return self.config["poaps_details_url"]
 
     primary_keys = ['id']
-    replication_key = 'start_date'
-    replication_method = "INCREMENTAL"
+    replication_method = "FULL_TABLE"
     is_sorted = True
     records_jsonpath: str = "$.items[*]"
     next_page_token_jsonpath: str = "$.items[-1:].start_date"
     
+    def get_next_page_token(
+        self, response: requests.Response, previous_token: Optional[Any]
+    ) -> Any:
+        all_matches = extract_jsonpath(
+            self.next_page_token_jsonpath, response.json()
+        )
+        first_match = next(iter(all_matches), None)
+        next_page_token = first_match
+
+        if next_page_token == previous_token:
+            return None
+
+        return next_page_token
+
     def get_url_params(
         self,
         context: Optional[dict],
@@ -90,7 +97,7 @@ class PoapsMetadata(BaseAPIStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Add hash"""
-        row['start_date'] = datetime.strptime(row['start_date'], '%d-%b-%Y')
+        row['start_date'] = int(datetime.strptime(row['start_date'], '%d-%b-%Y').timestamp())
         return row
 
     schema = th.PropertiesList(
@@ -103,7 +110,7 @@ class PoapsMetadata(BaseAPIStream):
         th.Property("city", th.StringType),
         th.Property("description", th.StringType),
         th.Property("year", th.IntegerType),
-        th.Property("start_date", th.DateTimeType),
+        th.Property("start_date", th.IntegerType),
         th.Property("end_date", th.StringType),
         th.Property("expiry_date", th.StringType),
         th.Property("from_admin", th.BooleanType),
