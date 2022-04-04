@@ -35,7 +35,7 @@ class DecentralandTheGraphStream(GraphQLStream):
     ) -> Optional[int]:
         """Return `start_date` config, or state if using timestamp replication."""
         if self.is_timestamp_replication_key:
-            replication_key_value = self._starting_replication_key_value(context)
+            replication_key_value = self.get_starting_replication_key_value(context)
             if replication_key_value:
                 return replication_key_value
 
