@@ -57,7 +57,7 @@ class PoapsMetadata(BaseAPIStream):
     name = "poaps_metadata"
     path = "/paginated-events"
 
-    RESULTS_PER_PAGE = 500
+    RESULTS_PER_PAGE = 100
 
     @property
     def url_base(self) -> str:
