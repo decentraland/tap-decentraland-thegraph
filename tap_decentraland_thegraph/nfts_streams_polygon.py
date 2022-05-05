@@ -1,5 +1,6 @@
 """Stream type classes for tap-decentraland-thegraph."""
 
+from asyncio.windows_events import NULL
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 
@@ -236,7 +237,14 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
         row['totalSupply'] = int(row['totalSupply'])
         row['maxSupply'] = int(row['maxSupply'])
         row['available'] = int(row['available'])
-        row['price'] = int(row['price'])
+        
+        # If Price is a long number null the value
+        # so it doesn't crash when inserting
+        if len(row['price']) > 32:
+            row['price'] = None
+        else:
+            row['price'] = int(row['price'])
+        
         return row
 
     
@@ -253,7 +261,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("maxSupply", th.IntegerType),
         th.Property("rarity", th.StringType),
         th.Property("available", th.IntegerType),
-        th.Property("price", th.StringType),
+        th.Property("price", th.IntegerType),
         th.Property("beneficiary", th.StringType),
         th.Property("contentHash", th.StringType),
         th.Property("URI", th.StringType),
