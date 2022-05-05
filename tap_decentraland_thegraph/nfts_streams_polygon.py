@@ -253,7 +253,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("maxSupply", th.IntegerType),
         th.Property("rarity", th.StringType),
         th.Property("available", th.IntegerType),
-        th.Property("price", th.IntegerType),
+        th.Property("price", th.StringType),
         th.Property("beneficiary", th.StringType),
         th.Property("contentHash", th.StringType),
         th.Property("URI", th.StringType),
