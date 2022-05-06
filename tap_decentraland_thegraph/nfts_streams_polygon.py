@@ -1,5 +1,6 @@
 """Stream type classes for tap-decentraland-thegraph."""
 
+import requests, backoff
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 
@@ -236,7 +237,14 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
         row['totalSupply'] = int(row['totalSupply'])
         row['maxSupply'] = int(row['maxSupply'])
         row['available'] = int(row['available'])
-        row['price'] = int(row['price'])
+        
+        # If Price is a long number null the value
+        # so it doesn't crash when inserting
+        if len(row['price']) > 32:
+            row['price'] = None
+        else:
+            row['price'] = int(row['price'])
+        
         return row
 
     
