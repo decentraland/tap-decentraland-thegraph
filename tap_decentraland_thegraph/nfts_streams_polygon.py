@@ -1,6 +1,6 @@
 """Stream type classes for tap-decentraland-thegraph."""
 
-from asyncio.windows_events import NULL
+import requests, backoff
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 

@@ -96,11 +96,6 @@ STREAM_TYPES = [
     PolygonSalesStream
 ]
 
-STREAM_TYPES = [
-    ItemsPolygonStream
-
-]
-
 class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
