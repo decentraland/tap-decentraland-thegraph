@@ -101,7 +101,18 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("createdAt", th.StringType),
         th.Property("updatedAt", th.StringType),
         th.Property("metadata", th.ObjectType(
+            th.Property("itemType", th.StringType),
             th.Property("wearable", th.ObjectType(
+                th.Property("id", th.StringType),
+                th.Property("name", th.StringType),
+                th.Property("category", th.StringType),
+                th.Property("collection", th.StringType),
+                th.Property("rarity", th.StringType),
+                th.Property("description", th.StringType),
+                th.Property("bodyShapeMale", th.BooleanType),
+                th.Property("bodyShapeFemale", th.BooleanType),
+            )),
+            th.Property("emote", th.ObjectType(
                 th.Property("id", th.StringType),
                 th.Property("name", th.StringType),
                 th.Property("category", th.StringType),
