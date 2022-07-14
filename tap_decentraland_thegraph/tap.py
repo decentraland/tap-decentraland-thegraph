@@ -36,6 +36,10 @@ from tap_decentraland_thegraph.nfts_streams_polygon import (
     ItemsPolygonStream
 )
 
+from tap_decentraland_thegraph.nfts_mints_polygon import (
+    MintsPolygonStream,
+)
+
 from tap_decentraland_thegraph.orders_streams_polygon import (
     WearablesOrdersPolygonStream,
     WearablesPrimarySalesPolygonStream,
@@ -93,7 +97,8 @@ STREAM_TYPES = [
     ETHAccountsStream,
     PolygonAccountsStream,
     ETHSalesStream,
-    PolygonSalesStream
+    PolygonSalesStream,
+    MintsPolygonStream
 ]
 
 class TapDecentralandTheGraph(Tap):
