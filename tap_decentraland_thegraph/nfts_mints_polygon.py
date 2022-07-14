@@ -31,6 +31,7 @@ class MintsPolygonStream(DecentralandTheGraphPolygonStream):
         {
             id
             item{
+                id
                 creator
                 itemType
                 available
