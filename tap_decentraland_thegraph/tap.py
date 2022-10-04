@@ -27,7 +27,8 @@ from tap_decentraland_thegraph.nfts_streams import (
     EstatesStream,
     ParcelsStream,
     NamesStream,
-    ItemsStream
+    ItemsStream,
+    CollectionsEthereumStream
 )
 
 from tap_decentraland_thegraph.nfts_streams_polygon import (
@@ -98,7 +99,8 @@ STREAM_TYPES = [
     PolygonAccountsStream,
     ETHSalesStream,
     PolygonSalesStream,
-    MintsPolygonStream
+    MintsPolygonStream,
+    CollectionsEthereumStream
 ]
 
 class TapDecentralandTheGraph(Tap):

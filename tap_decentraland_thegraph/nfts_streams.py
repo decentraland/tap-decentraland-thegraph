@@ -403,3 +403,75 @@ class ItemsStream(DecentralandTheGraphStream):
         th.Property("updatedAt", th.StringType),
         th.Property("creationFee", th.StringType)
     ).to_dict()
+
+   
+class CollectionsEthereumStream(DecentralandTheGraphStream):
+    name = "collections_ethereum"
+
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return self.config["eth_collections_url"]
+
+    primary_keys = ["rowId"]
+    replication_key = 'updatedAt'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
+    object_returned = 'collections'
+    
+    query = """
+    query ($updatedAt: Int!)
+        {
+        collections (
+            first: 1000,
+            orderBy: updatedAt,
+            orderDirection: asc,
+            where:{
+                updatedAt_gte: $updatedAt
+        })
+        {
+            id
+            owner
+            creator
+            name
+            symbol
+            isCompleted
+            isApproved
+            isEditable
+            minters
+            managers
+            urn
+            itemsCount
+            createdAt
+            updatedAt
+            reviewedAt
+        }
+    }
+
+    """
+
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+        """Generate row id"""
+        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        return row
+
+    
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, required=True),
+        th.Property("rowId", th.StringType, required=True),
+        th.Property("owner", th.StringType),
+        th.Property("creator", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("symbol", th.StringType),
+        th.Property("isCompleted", th.BooleanType),
+        th.Property("isApproved", th.BooleanType),
+        th.Property("isEditable", th.BooleanType),
+        th.Property("minters", th.ArrayType(th.StringType)),
+        th.Property("managers", th.ArrayType(th.StringType)),
+        th.Property("urn", th.StringType),
+        th.Property("itemsCount", th.IntegerType),
+        th.Property("createdAt", th.StringType),
+        th.Property("updatedAt", th.StringType),
+        th.Property("reviewedAt", th.StringType)
+    ).to_dict()
+
