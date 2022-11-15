@@ -88,7 +88,6 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
         row['rowId'] = "|".join([row['id'],row['updatedAt']])
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -124,8 +123,6 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
             ))
         ))
     ).to_dict()
-
-
 
 class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
     name = "collections_polygon"
@@ -164,14 +161,15 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
             reviewedAt
         }
     }
-
     """
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+
         """Generate row id"""
         row['rowId'] = "|".join([row['id'],row['updatedAt']])
-        return row
+        row['minters'] = ''.join(row['minters'])
 
+        return row
     
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
@@ -191,7 +189,6 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("updatedAt", th.StringType),
         th.Property("reviewedAt", th.StringType)
     ).to_dict()
-
 
 class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
     name = "items_polygon"
@@ -257,7 +254,6 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
             row['price'] = int(row['price'])
         
         return row
-
     
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
