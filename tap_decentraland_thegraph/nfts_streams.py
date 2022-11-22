@@ -480,6 +480,6 @@ class CollectionsEthereumStream(DecentralandTheGraphStream):
         th.Property("updatedAt", th.StringType),
         th.Property("reviewedAt", th.StringType),
         th.Property("searchIsStoreMinter", th.BooleanType),
-        th.Property("searchText", th.TextType)
+        th.Property("searchText", th.StringType)
     ).to_dict()
 
