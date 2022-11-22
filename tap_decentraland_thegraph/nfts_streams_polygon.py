@@ -159,6 +159,8 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
             createdAt
             updatedAt
             reviewedAt
+            searchIsStoreMinter
+            searchText
         }
     }
     """
@@ -187,7 +189,9 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("itemsCount", th.IntegerType),
         th.Property("createdAt", th.StringType),
         th.Property("updatedAt", th.StringType),
-        th.Property("reviewedAt", th.StringType)
+        th.Property("reviewedAt", th.StringType),
+        th.Property("searchIsStoreMinter", th.BooleanType),
+        th.Property("searchText", th.StringType)
     ).to_dict()
 
 class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
