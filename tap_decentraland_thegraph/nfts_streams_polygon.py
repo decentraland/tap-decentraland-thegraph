@@ -169,7 +169,6 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
 
         """Generate row id"""
         row['rowId'] = "|".join([row['id'],row['updatedAt']])
-        row['minters'] = ''.join(row['minters'])
 
         return row
     
