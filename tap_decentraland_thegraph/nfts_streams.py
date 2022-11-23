@@ -376,9 +376,6 @@ class ItemsStream(DecentralandTheGraphStream):
         row['available'] = int(row['available'])
         row['price'] = int(row['price'])
         
-        # Convert strings
-        row['minters'] = ''.join(row['minters'])
-
         return row
 
     
