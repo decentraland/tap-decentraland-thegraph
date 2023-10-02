@@ -1,6 +1,7 @@
 """Stream type classes for tap-decentraland-thegraph."""
 
-import requests, backoff
+import requests
+import backoff
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 
@@ -17,7 +18,7 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'nfts'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -57,6 +58,9 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
                     category
                     rarity
                     bodyShapes
+                    hasGeometry
+                    hasSound
+                    loop
                 }
             }
         }
@@ -74,7 +78,7 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
                 del row['metadata']['wearable']['bodyShapes']
         else:
             row['metadata']['wearable'] = {}
-        
+
         if 'emote' in row['metadata'] and row['metadata']['emote'] is not None:
             if 'bodyShapes' in row['metadata']['emote'] and row['metadata']['emote']['bodyShapes'] is not None:
                 bodyShapes = row['metadata']['emote']['bodyShapes']
@@ -85,7 +89,7 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
             row['metadata']['emote'] = {}
 
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
         return row
 
     schema = th.PropertiesList(
@@ -120,9 +124,13 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
                 th.Property("description", th.StringType),
                 th.Property("bodyShapeMale", th.BooleanType),
                 th.Property("bodyShapeFemale", th.BooleanType),
+                th.Property("hasGeometry", th.BooleanType),
+                th.Property("hasSound", th.BooleanType),
+                th.Property("loop", th.BooleanType),
             ))
         ))
     ).to_dict()
+
 
 class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
     name = "collections_polygon"
@@ -132,7 +140,7 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'collections'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -166,12 +174,11 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
     """
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
-
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
 
         return row
-    
+
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -193,6 +200,7 @@ class CollectionsPolygonStream(DecentralandTheGraphPolygonStream):
         th.Property("searchText", th.StringType)
     ).to_dict()
 
+
 class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
     name = "items_polygon"
 
@@ -201,7 +209,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'items'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -220,7 +228,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
             blockchainId
             creator
             itemType
-            totalSupply
+            x
             maxSupply
             rarity
             available
@@ -242,22 +250,22 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
 
         # Convert ints
         row['totalSupply'] = int(row['totalSupply'])
         row['maxSupply'] = int(row['maxSupply'])
         row['available'] = int(row['available'])
-        
+
         # If Price is a long number null the value
         # so it doesn't crash when inserting
         if len(row['price']) > 32:
             row['price'] = None
         else:
             row['price'] = int(row['price'])
-        
+
         return row
-    
+
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
