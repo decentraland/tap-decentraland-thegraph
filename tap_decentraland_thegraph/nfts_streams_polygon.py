@@ -124,6 +124,9 @@ class WearablesPolygonStream(DecentralandTheGraphPolygonStream):
                 th.Property("description", th.StringType),
                 th.Property("bodyShapeMale", th.BooleanType),
                 th.Property("bodyShapeFemale", th.BooleanType),
+                th.Property("hasGeometry", th.BooleanType),
+                th.Property("hasSound", th.BooleanType),
+                th.Property("loop", th.BooleanType),
             ))
         ))
     ).to_dict()
