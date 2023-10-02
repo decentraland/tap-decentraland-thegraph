@@ -228,7 +228,7 @@ class ItemsPolygonStream(DecentralandTheGraphPolygonStream):
             blockchainId
             creator
             itemType
-            x
+            totalSupply
             maxSupply
             rarity
             available
