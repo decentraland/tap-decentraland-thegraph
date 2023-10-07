@@ -28,13 +28,15 @@ from tap_decentraland_thegraph.nfts_streams import (
     ParcelsStream,
     NamesStream,
     ItemsStream,
+    ItemsUniqueStream,
     CollectionsEthereumStream
 )
 
 from tap_decentraland_thegraph.nfts_streams_polygon import (
     WearablesPolygonStream,
     CollectionsPolygonStream,
-    ItemsPolygonStream
+    ItemsPolygonStream,
+    ItemsPolygonUniqueStream
 )
 
 from tap_decentraland_thegraph.nfts_mints_polygon import (
@@ -94,10 +96,12 @@ STREAM_TYPES = [
     PolygonManaStream,
     CollectionsPolygonStream,
     ItemsPolygonStream,
+    ItemsPolygonUniqueStream,
     WearablesPrimarySalesPolygonStream,
     PoapsXdai,
     PoapsMetadata,
     ItemsStream,
+    ItemsUniqueStream,
     ETHAccountsStream,
     PolygonAccountsStream,
     ETHSalesStream,
@@ -107,21 +111,29 @@ STREAM_TYPES = [
     RentalsStream
 ]
 
+
 class TapDecentralandTheGraph(Tap):
     """DecentralandTheGraph tap class."""
     name = "tap-decentraland-thegraph"
 
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
-        th.Property("api_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
-        th.Property("polygon_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
+        th.Property("api_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
+        th.Property("polygon_collections_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
         th.Property("incremental_limit", th.IntegerType, default=50000),
-        th.Property("eth_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
-        th.Property("polygon_mana_holder_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
-        th.Property("poaps_xdai_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
+        th.Property("eth_mana_holder_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
+        th.Property("polygon_mana_holder_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
+        th.Property("poaps_xdai_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
         th.Property("poaps_details_url", th.StringType, default='http://api.poap.xyz'),
-        th.Property("eth_collections_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
-        th.Property("rentals_url", th.StringType, default='https://api.thegraph.com/subgraphs/name/decentraland/rentals-ethereum-mainnet'),
+        th.Property("eth_collections_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
+        th.Property("rentals_url", th.StringType,
+                    default='https://api.thegraph.com/subgraphs/name/decentraland/rentals-ethereum-mainnet'),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
