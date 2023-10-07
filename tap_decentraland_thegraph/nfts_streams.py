@@ -16,7 +16,7 @@ class WearablesStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'nfts'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -61,10 +61,9 @@ class WearablesStream(DecentralandTheGraphStream):
         del row['wearable']['bodyShapes']
 
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -90,7 +89,6 @@ class WearablesStream(DecentralandTheGraphStream):
     ).to_dict()
 
 
-
 class NamesStream(DecentralandTheGraphStream):
     name = "nfts_names"
 
@@ -99,7 +97,7 @@ class NamesStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'nfts'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -135,10 +133,9 @@ class NamesStream(DecentralandTheGraphStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -168,7 +165,7 @@ class ParcelsStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'nfts'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -205,16 +202,15 @@ class ParcelsStream(DecentralandTheGraphStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
 
         """Convert to int"""
         row['parcel']['x'] = int(row['parcel']['x'])
         row['parcel']['y'] = int(row['parcel']['y'])
         if 'name' in row and isinstance(row['name'], str):
-            row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
+            row['name'] = row['name'].replace('\\', '\\\\')  # Escape backslashes
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -245,7 +241,7 @@ class EstatesStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'nfts'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -282,7 +278,7 @@ class EstatesStream(DecentralandTheGraphStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
 
         """Convert to int"""
         parcels = row['estate']['parcels']
@@ -292,10 +288,9 @@ class EstatesStream(DecentralandTheGraphStream):
             converted = ''
         row['estate']['parcels'] = converted
         if 'name' in row and isinstance(row['name'], str):
-            row['name'] = row['name'].replace('\\', '\\\\') # Escape backslashes
+            row['name'] = row['name'].replace('\\', '\\\\')  # Escape backslashes
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -314,9 +309,10 @@ class EstatesStream(DecentralandTheGraphStream):
         ))
     ).to_dict()
 
+
 class ItemsStream(DecentralandTheGraphStream):
     name = "items_ethereum"
-    
+
     @property
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
@@ -327,7 +323,7 @@ class ItemsStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'items'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -368,17 +364,16 @@ class ItemsStream(DecentralandTheGraphStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
 
         # Convert ints
         row['totalSupply'] = int(row['totalSupply'])
         row['maxSupply'] = int(row['maxSupply'])
         row['available'] = int(row['available'])
         row['price'] = int(row['price'])
-        
+
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -405,7 +400,7 @@ class ItemsStream(DecentralandTheGraphStream):
         th.Property("creationFee", th.StringType)
     ).to_dict()
 
-   
+
 class CollectionsEthereumStream(DecentralandTheGraphStream):
     name = "collections_ethereum"
 
@@ -419,7 +414,7 @@ class CollectionsEthereumStream(DecentralandTheGraphStream):
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'collections'
-    
+
     query = """
     query ($updatedAt: Int!)
         {
@@ -455,10 +450,9 @@ class CollectionsEthereumStream(DecentralandTheGraphStream):
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Generate row id"""
-        row['rowId'] = "|".join([row['id'],row['updatedAt']])
+        row['rowId'] = "|".join([row['id'], row['updatedAt']])
         return row
 
-    
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("rowId", th.StringType, required=True),
@@ -480,3 +474,137 @@ class CollectionsEthereumStream(DecentralandTheGraphStream):
         th.Property("searchText", th.StringType)
     ).to_dict()
 
+
+class ItemsUniqueStream(DecentralandTheGraphStream):
+    name = "items_ethereum_unique"
+    primary_keys = ["id"]
+    replication_key = 'updatedAt'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
+    object_returned = 'items'
+
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return self.config["eth_collections_url"]
+
+    query = """
+        query ($updatedAt: Int!) 
+        {
+        items(
+            first: 1000
+            orderBy: updatedAt
+            orderDirection: asc
+            where: {
+                updatedAt_gte: $updatedAt
+            })
+         {
+            id
+            collection {
+                id
+            }
+            blockchainId
+            creator
+            itemType
+            totalSupply
+            maxSupply
+            rarity
+            available
+            price
+            beneficiary
+            contentHash
+            URI
+            image
+            minters
+            managers
+            urn
+            createdAt
+            updatedAt
+            creationFee
+            uniqueCollectorsTotal
+            firstListedAt
+            volume
+            metadata {
+                wearable {
+                    bodyShapes
+                    category
+                    description
+                    name
+                }
+                emote {
+                    bodyShapes
+                    category
+                    description
+                    hasGeometry
+                    hasSound
+                    loop
+                    name
+                    
+                }
+            }
+        }
+        }
+
+    """
+
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+
+        # Convert ints
+        row['totalSupply'] = int(row['totalSupply'])
+        row['maxSupply'] = int(row['maxSupply'])
+        row['available'] = int(row['available'])
+
+        if len(row['price']) > 32:
+            row['price'] = None
+        else:
+            row['price'] = int(row['price'])
+
+        return row
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, required=True),
+        th.Property("rowId", th.StringType, required=True),
+        th.Property("collection", th.ObjectType(
+            th.Property("id", th.StringType),
+        )),
+        th.Property("blockchainId", th.StringType),
+        th.Property("creator", th.StringType),
+        th.Property("itemType", th.StringType),
+        th.Property("totalSupply", th.IntegerType),
+        th.Property("maxSupply", th.IntegerType),
+        th.Property("rarity", th.StringType),
+        th.Property("available", th.IntegerType),
+        th.Property("price", th.IntegerType),
+        th.Property("beneficiary", th.StringType),
+        th.Property("contentHash", th.StringType),
+        th.Property("URI", th.StringType),
+        th.Property("image", th.StringType),
+        th.Property("minters", th.ArrayType(th.StringType)),
+        th.Property("managers", th.ArrayType(th.StringType)),
+        th.Property("urn", th.StringType),
+        th.Property("createdAt", th.StringType),
+        th.Property("updatedAt", th.StringType),
+        th.Property("creationFee", th.StringType),
+        th.Property("uniqueCollectorsTotal", th.IntegerType),
+        th.Property("firstListedAt", th.StringType),
+        th.Property("volume", th.StringType),
+        th.Property("metadata", th.ObjectType(
+            th.Property("wearable", th.ObjectType(
+                th.Property("bodyShapes", th.ArrayType(th.StringType)),
+                th.Property("category", th.StringType),
+                th.Property("description", th.StringType),
+                th.Property("name", th.StringType),
+
+            )),
+            th.Property("emote", th.ObjectType(
+                th.Property("bodyShapes", th.ArrayType(th.StringType)),
+                th.Property("category", th.StringType),
+                th.Property("description", th.StringType),
+                th.Property("hasGeometry", th.BooleanType),
+                th.Property("hasSound", th.BooleanType),
+                th.Property("loop", th.BooleanType),
+                th.Property("name", th.StringType),
+
+            ))
+        ))
+    ).to_dict()
