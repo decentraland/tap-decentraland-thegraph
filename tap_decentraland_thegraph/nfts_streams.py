@@ -548,7 +548,6 @@ class ItemsUniqueStream(DecentralandTheGraphStream):
     """
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
-
         # Convert ints
         row['totalSupply'] = int(row['totalSupply'])
         row['maxSupply'] = int(row['maxSupply'])
@@ -559,11 +558,36 @@ class ItemsUniqueStream(DecentralandTheGraphStream):
         else:
             row['price'] = int(row['price'])
 
+        if 'wearable' in row['metadata'] and row['metadata']['wearable'] is not None:
+            bodyShapes = row['metadata']['wearable']['bodyShapes']
+
+            row['category'] = row['metadata']['wearable']['category']
+            row['description'] = row['metadata']['wearable']['description']
+            row['name'] = row['metadata']['wearable']['name']
+            row['is_male_shape'] = 'BaseMale' in bodyShapes
+            row['is_female_shape'] = 'BaseFemale' in bodyShapes
+            row['hasGeometry'] = False
+            row['hasSound'] = False
+            row['loop'] = False
+            del row['metadata']['wearable']
+
+        if 'emote' in row['metadata'] and row['metadata']['emote'] is not None:
+            bodyShapes = row['metadata']['emote']['bodyShapes']
+
+            row['category'] = row['metadata']['emote']['category']
+            row['description'] = row['metadata']['emote']['description']
+            row['name'] = row['metadata']['emote']['name']
+            row['is_male_shape'] = 'BaseMale' in bodyShapes
+            row['is_female_shape'] = 'BaseFemale' in bodyShapes
+            row['hasGeometry'] = row['metadata']['emote']['hasGeometry']
+            row['hasSound'] = row['metadata']['emote']['hasSound']
+            row['loop'] = row['metadata']['emote']['loop']
+            del row['metadata']['emote']
+
         return row
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
-        th.Property("rowId", th.StringType, required=True),
         th.Property("collection", th.ObjectType(
             th.Property("id", th.StringType),
         )),
@@ -579,8 +603,6 @@ class ItemsUniqueStream(DecentralandTheGraphStream):
         th.Property("contentHash", th.StringType),
         th.Property("URI", th.StringType),
         th.Property("image", th.StringType),
-        th.Property("minters", th.ArrayType(th.StringType)),
-        th.Property("managers", th.ArrayType(th.StringType)),
         th.Property("urn", th.StringType),
         th.Property("createdAt", th.StringType),
         th.Property("updatedAt", th.StringType),
@@ -588,23 +610,12 @@ class ItemsUniqueStream(DecentralandTheGraphStream):
         th.Property("uniqueCollectorsTotal", th.IntegerType),
         th.Property("firstListedAt", th.StringType),
         th.Property("volume", th.StringType),
-        th.Property("metadata", th.ObjectType(
-            th.Property("wearable", th.ObjectType(
-                th.Property("bodyShapes", th.ArrayType(th.StringType)),
-                th.Property("category", th.StringType),
-                th.Property("description", th.StringType),
-                th.Property("name", th.StringType),
-
-            )),
-            th.Property("emote", th.ObjectType(
-                th.Property("bodyShapes", th.ArrayType(th.StringType)),
-                th.Property("category", th.StringType),
-                th.Property("description", th.StringType),
-                th.Property("hasGeometry", th.BooleanType),
-                th.Property("hasSound", th.BooleanType),
-                th.Property("loop", th.BooleanType),
-                th.Property("name", th.StringType),
-
-            ))
-        ))
+        th.Property("is_male_shape", th.BooleanType),
+        th.Property("is_female_shape", th.BooleanType),
+        th.Property("category", th.StringType),
+        th.Property("description", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("hasGeometry", th.BooleanType),
+        th.Property("hasSound", th.BooleanType),
+        th.Property("loop", th.BooleanType)
     ).to_dict()

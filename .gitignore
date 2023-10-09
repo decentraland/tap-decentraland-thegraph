@@ -140,3 +140,5 @@ dmypy.json
 /*.csv
 /*.jsonl
 /local_run_files
+
+output
