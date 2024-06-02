@@ -74,6 +74,10 @@ from tap_decentraland_thegraph.rentals_streams import (
     RentalsStream
 )
 
+from tap_decentraland_thegraph.dao_earnings import (
+    DaoEarningsStream
+)
+
 STREAM_TYPES = [
     WearablesBidsStream,
     WearablesOrdersStream,
@@ -108,7 +112,8 @@ STREAM_TYPES = [
     PolygonSalesStream,
     MintsPolygonStream,
     CollectionsEthereumStream,
-    RentalsStream
+    RentalsStream,
+    DaoEarningsStream
 ]
 
 
