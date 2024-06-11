@@ -119,21 +119,21 @@ class TapDecentralandTheGraph(Tap):
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
         th.Property("api_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/marketplace'),
+                    default='https://subgraph.decentraland.org/marketplace'),
         th.Property("polygon_collections_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet'),
+                    default='https://subgraph.decentraland.org/collections-matic-mainnet'),
         th.Property("incremental_limit", th.IntegerType, default=50000),
         th.Property("eth_mana_holder_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/mana-ethereum-mainnet'),
+                    default='https://subgraph.decentraland.org/mana-ethereum-mainnet'),
         th.Property("polygon_mana_holder_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/mana-matic-mainnet'),
+                    default='https://subgraph.decentraland.org/mana-matic-mainnet'),
         th.Property("poaps_xdai_url", th.StringType,
                     default='https://api.thegraph.com/subgraphs/name/poap-xyz/poap-xdai'),
         th.Property("poaps_details_url", th.StringType, default='http://api.poap.xyz'),
         th.Property("eth_collections_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/collections-ethereum-mainnet'),
+                    default='https://subgraph.decentraland.org/collections-ethereum-mainnet'),
         th.Property("rentals_url", th.StringType,
-                    default='https://api.thegraph.com/subgraphs/name/decentraland/rentals-ethereum-mainnet'),
+                    default='https://subgraph.decentraland.org/rentals-ethereum-mainnet'),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
