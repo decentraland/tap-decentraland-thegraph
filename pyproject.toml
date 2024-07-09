@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "tap-decentraland-thegraph"
-version = "0.2.0"
+version = "1.0.0"
 description = "`tap-decentraland-thegraph` is Singer tap for DecentralandTheGraph, built with the Singer SDK."
-authors = ["Pablo Seibelt", "Rodrigo Antonioli"]
+authors = ["Pablo Seibelt", "Rodrigo Antonioli", "Manuel Ponsa"]
 license = "Apache 2.0"
 
 [tool.poetry.dependencies]
