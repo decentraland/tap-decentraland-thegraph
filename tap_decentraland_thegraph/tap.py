@@ -52,9 +52,8 @@ from tap_decentraland_thegraph.bids_streams_polygon import (
     WearablesBidsPolygonStream,
 )
 
-from tap_decentraland_thegraph.mana_holders_streams import (
-    ETHManaStream,
-    PolygonManaStream,
+from tap_decentraland_thegraph.account_streams import (
+    LogStreams,
 )
 
 from tap_decentraland_thegraph.poaps import (
@@ -92,8 +91,7 @@ STREAM_TYPES = [
     NamesBidsStream,
     WearablesOrdersPolygonStream,
     WearablesBidsPolygonStream,
-    ETHManaStream,
-    PolygonManaStream,
+    LogStreams,
     CollectionsPolygonStream,
     ItemsPolygonStream,
     ItemsPolygonUniqueStream,
@@ -118,6 +116,11 @@ class TapDecentralandTheGraph(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property("start_updated_at", th.IntegerType, default=1),
+        th.Property("subgraph_url", th.StringType,
+                    default="https://subgraph.decentraland.org"),
+        th.Property("account_subgraph_paths", th.ArrayType(th.StringType),
+                    default=["mana-ethereum-mainnet", "mana-matic-mainnet"]),
+        th.Property("max_rows_per_run", th.IntegerType, default=1000),
         th.Property("api_url", th.StringType,
                     default='https://subgraph.decentraland.org/marketplace'),
         th.Property("polygon_collections_url", th.StringType,
