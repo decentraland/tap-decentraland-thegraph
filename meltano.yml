@@ -11,8 +11,8 @@ plugins:
     - catalog
     - discover
     settings:
-    - name: api_url
-      value: https://api.thegraph.com/subgraphs/name/decentraland/marketplace
+    - name: subgraph_url
+      value: https://subgraph.dcentraland.org
     - name: start_updated_at
       value: 1
   loaders:
