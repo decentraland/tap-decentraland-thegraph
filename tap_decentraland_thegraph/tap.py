@@ -129,7 +129,7 @@ class TapDecentralandTheGraph(Tap):
                     default='https://subgraph.decentraland.org/marketplace'),
         th.Property("polygon_collections_url", th.StringType,
                     default='https://subgraph.decentraland.org/collections-matic-mainnet'),
-        th.Property("incremental_limit", th.IntegerType, default=50000),
+        th.Property("incremental_limit", th.IntegerType, default=None),
         th.Property("eth_mana_holder_url", th.StringType,
                     default='https://subgraph.decentraland.org/mana-ethereum-mainnet'),
         th.Property("polygon_mana_holder_url", th.StringType,

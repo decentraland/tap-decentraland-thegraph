@@ -13,9 +13,6 @@ from singer_sdk.streams import RESTStream
 from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
 
 
-
-
-
 class DecentralandTheGraphStream(GraphQLStream):
     """DecentralandTheGraph stream class."""
 
@@ -31,7 +28,7 @@ class DecentralandTheGraphStream(GraphQLStream):
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
         return self.config["api_url"]
-    
+
     def get_starting_timestamp(
         self, context: Optional[dict]
     ) -> Optional[int]:
@@ -46,7 +43,6 @@ class DecentralandTheGraphStream(GraphQLStream):
 
         return None
 
-
     def get_url_params(self, partition, next_page_token: Optional[th.IntegerType] = None) -> dict:
         next_page_token = next_page_token or self.get_starting_timestamp(partition)
         self.logger.info(f'(stream: {self.name}) Next page:{next_page_token}')
@@ -55,21 +51,22 @@ class DecentralandTheGraphStream(GraphQLStream):
             "updatedAt": int(next_page_token),
         }
 
-
     def get_next_page_token(self, response, previous_token):
         if self.results_count == 0:
             return None
         if previous_token and self.latest_timestamp == previous_token:
             return None
 
-        if self.total_results_count >= self.config["incremental_limit"]:
-            self.logger.warn('Incremental limit for this run reached, please run again to continue loading data, and/or increase your limit')
+        limit_reached = self.config.get(
+            "incremental_limit", None) is not None and self.total_results_count >= self.config["incremental_limit"]
+
+        if limit_reached:
+            self.logger.warn(
+                'Incremental limit for this run reached, please run again to continue loading data, and/or increase your limit')
             return None
 
         return self.latest_timestamp
-        
 
-    
     def parse_response(self, response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
         resp_json = response.json()
@@ -80,13 +77,14 @@ class DecentralandTheGraphStream(GraphQLStream):
             for row in results:
 
                 if self.onlyonerow == False:
-                    #Update timestamp
+                    # Update timestamp
                     if self.latest_timestamp is None or row[self.replication_key] > self.latest_timestamp:
                         self.latest_timestamp = row[self.replication_key]
-                
+
                 yield row
         except Exception as err:
-            self.logger.warn(f"(stream: {self.name}) Problem with response: {resp_json}")
+            self.logger.warn(
+                f"(stream: {self.name}) Problem with response: {resp_json}")
             raise err
 
     def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
@@ -97,19 +95,18 @@ class DecentralandTheGraphStream(GraphQLStream):
         """
         for row in self.request_records(context):
             row = self.post_process(row, context)
-            row_key = "|".join([v for k,v in row.items() if k in self.primary_keys])
+            row_key = "|".join([v for k, v in row.items() if k in self.primary_keys])
             if row_key in self.results_keys and self.dedupe:
                 # Because thegraph doesn't allow for reliable pagination, sometimes you could get
                 # duplicate rows from the same second.
                 self.logger.warn(f"(stream: {self.name}) skipping duplicate {row_key}")
                 continue
 
-            #Add key as processed to avoid dupes
+            # Add key as processed to avoid dupes
             if self.dedupe:
                 self.results_keys.add(row_key)
             yield row
-    
-    
+
     def request_decorator(self, func: Callable) -> Callable:
         decorator: Callable = backoff.on_exception(
             backoff.expo,
@@ -123,7 +120,6 @@ class DecentralandTheGraphStream(GraphQLStream):
         return decorator
 
 
-
 class DecentralandTheGraphPolygonStream(DecentralandTheGraphStream):
     """DecentralandTheGraphPolygonStream stream class."""
 
@@ -133,14 +129,14 @@ class DecentralandTheGraphPolygonStream(DecentralandTheGraphStream):
         return self.config["polygon_collections_url"]
 
 
-
 RESULTS_PER_PAGE = 1000
+
 
 class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
     """DecentralandTheGraphCompleteObjectStream stream class."""
     total_results_count = 0
     results_count = 0
-    
+
     def get_url_params(self, partition, next_page_token: Optional[th.IntegerType] = None) -> dict:
         next_page_token = next_page_token or 0
         self.logger.info(f'(stream: {self.name}) Next page:{next_page_token}')
@@ -149,12 +145,14 @@ class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
             "offset": int(next_page_token),
         }
 
-
     def get_next_page_token(self, response, previous_token):
         if self.results_count == 0 or self.results_count < RESULTS_PER_PAGE:
             return None
 
-        if self.total_results_count >= self.config["incremental_limit"]:
+        limit_reached = self.config.get(
+            "incremental_limit", None) is not None and self.total_results_count >= self.config["incremental_limit"]
+
+        if limit_reached:
             self.logger.warn('Limit for this run reached')
             return None
 
@@ -165,9 +163,7 @@ class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
                 self.logger.warn('Skip can\'t be higher than 5000 on The Graph')
                 return None
             return previous_token + RESULTS_PER_PAGE
-        
 
-    
     def parse_response(self, response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
         resp_json = response.json()
@@ -178,10 +174,10 @@ class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
             for row in results:
                 yield row
         except Exception as err:
-            self.logger.warn(f"(stream: {self.name}) Problem with response: {resp_json}")
+            self.logger.warn(
+                f"(stream: {self.name}) Problem with response: {resp_json}")
             raise err
-    
-    
+
     @backoff.on_exception(
         backoff.expo,
         (requests.exceptions.RequestException),
@@ -222,7 +218,7 @@ class DecentralandTheGraphCompleteObjectStream(GraphQLStream):
 
 
 class BaseAPIStream(RESTStream):
-    
+
     def request_decorator(self, func: Callable) -> Callable:
         decorator: Callable = backoff.on_exception(
             backoff.expo,
@@ -234,6 +230,3 @@ class BaseAPIStream(RESTStream):
             factor=3,
         )(func)
         return decorator
-
-
-
