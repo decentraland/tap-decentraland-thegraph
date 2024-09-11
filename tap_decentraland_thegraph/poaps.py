@@ -18,14 +18,11 @@ class PoapsXdai(DecentralandTheGraphPolygonStream):
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
         return self.config["poaps_xdai_url"]
-
-
     primary_keys = ["id"]
     replication_key = 'created'
     replication_method = "INCREMENTAL"
     is_sorted = True
     object_returned = 'events'
-    
     query = """
     query ($updatedAt: Int!)
     {
@@ -44,7 +41,7 @@ class PoapsXdai(DecentralandTheGraphPolygonStream):
         }
     }
     """
-    
+
     schema = th.PropertiesList(
         th.Property("id", th.StringType, required=True),
         th.Property("tokenCount", th.StringType),
@@ -69,7 +66,7 @@ class PoapsMetadata(BaseAPIStream):
     is_sorted = True
     records_jsonpath: str = "$.items[*]"
     next_page_token_jsonpath: str = "$.items[-1:].start_date"
-    
+
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]
     ) -> Any:
@@ -89,11 +86,11 @@ class PoapsMetadata(BaseAPIStream):
         context: Optional[dict],
         next_page_token: Optional[Any] = None
     ) -> Dict[str, Any]:
-        next_timestamp = datetime(2000,1,1)
+        next_timestamp = datetime(2000, 1, 1)
         if next_page_token:
             next_timestamp = datetime.strptime(next_page_token, '%d-%b-%Y')
         self.logger.info(f"Time: {next_timestamp}")
-        return {"limit": self.RESULTS_PER_PAGE, "from_date": next_timestamp.strftime("%Y-%m-%dT%H:%M:%Sz"), "sort_field": "start_date", "sort_dir":"asc"}
+        return {"limit": self.RESULTS_PER_PAGE, "from_date": next_timestamp.strftime("%Y-%m-%dT%H:%M:%Sz"), "sort_field": "start_date", "sort_dir": "asc"}
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """Add hash"""
@@ -106,7 +103,8 @@ class PoapsMetadata(BaseAPIStream):
         row['virtual_event'] = str(row['virtual_event'])
         row['private_event'] = str(row['private_event'])
 
-        row['start_date'] = int(datetime.strptime(row['start_date'], '%d-%b-%Y').timestamp())
+        row['start_date'] = int(datetime.strptime(
+            row['start_date'], '%d-%b-%Y').timestamp())
         return row
 
     schema = th.PropertiesList(
@@ -127,4 +125,43 @@ class PoapsMetadata(BaseAPIStream):
         th.Property("event_template_id", th.StringType),
         th.Property("event_host_id", th.StringType),
         th.Property("private_event", th.StringType),
+    ).to_dict()
+
+
+class PoapMinters(DecentralandTheGraphPolygonStream):
+    name = "poaps_xdai"
+
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return self.config["poaps_xdai_url"]
+    primary_keys = ["id"]
+    replication_key = 'created'
+    replication_method = "INCREMENTAL"
+    is_sorted = True
+    object_returned = 'events'
+    query = """
+    query ($updatedAt: Int!)
+    {
+        events (
+            first: 1000,
+            orderBy: created,
+            orderDirection: asc,
+            where:{
+                created_gte: $updatedAt
+            }
+        ){
+            id
+            tokenCount
+            transferCount
+            created
+        }
+    }
+    """
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, required=True),
+        th.Property("tokenCount", th.StringType),
+        th.Property("transferCount", th.StringType),
+        th.Property("created", th.StringType),
     ).to_dict()
