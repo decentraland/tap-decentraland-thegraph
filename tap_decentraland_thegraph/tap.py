@@ -39,8 +39,10 @@ from tap_decentraland_thegraph.nfts_streams_polygon import (
     ItemsPolygonUniqueStream
 )
 
-from tap_decentraland_thegraph.nfts_mints_polygon import (
+from tap_decentraland_thegraph.polygon_collections import (
     MintsPolygonStream,
+    MintsPolygonStreamV2,
+    CurationsPolygonStream
 )
 
 from tap_decentraland_thegraph.orders_streams_polygon import (
@@ -106,7 +108,9 @@ STREAM_TYPES = [
     PolygonSalesStream,
     MintsPolygonStream,
     CollectionsEthereumStream,
-    RentalsStream
+    RentalsStream,
+    MintsPolygonStreamV2,
+    CurationsPolygonStream
 ]
 
 
