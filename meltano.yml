@@ -12,7 +12,7 @@ plugins:
     - discover
     settings:
     - name: api_url
-      value: https://api.thegraph.com/subgraphs/name/decentraland/marketplace
+      value: https://subgraph.decentraland.org/marketplace
     - name: start_updated_at
       value: 1
   loaders:
